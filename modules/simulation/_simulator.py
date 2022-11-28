@@ -1,8 +1,13 @@
 import pandas as pd
 import numpy as np
+from scipy import signal,fftpack
+import matplotlib.pyplot as plt
+import random
 from modules.preprocessing import MakeTrainData,MakeTrainData3
 from modules.preprocessing import DataFramePreProcessing
 from modules.preprocessing import PlotTrade
+from modules.funcs import cos_sim,standarize,norm,butter_lowpass_filter
+from modules.training import LearnClustering
 
 
 class Simulation():
@@ -252,7 +257,6 @@ class Simulation():
         self.pr_log['reward'] = self.pr_log['reward'].map(lambda x: x/wallet)
         self.pr_log['eval_reward'] = self.pr_log['eval_reward'].map(lambda x: x/wallet)
         return self.pr_log
-
 
 class XGBSimulation(Simulation):
     
@@ -688,7 +692,6 @@ class TechnicalSimulation(Simulation):
             print("")
             pl.show()    
 
-
 class FFTSimulation(XGBSimulation2):
 
 
@@ -968,7 +971,6 @@ class FFTSimulation(XGBSimulation2):
             # print("buy_count",buy_count)
             # print("sell_count",sell_count)
             pl.show()
-
 
 class FFTSimulation2(FFTSimulation):
 
@@ -1907,7 +1909,6 @@ class TPXSimulation(Simulation):
             print(log)
             print("")
             pl.show()
-
 
 class StrategymakerSimulation(XGBSimulation):
 
