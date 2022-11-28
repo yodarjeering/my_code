@@ -8,16 +8,20 @@ from sklearn import tree
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.linear_model import LinearRegression
+from modules.preprocessing import MakeTrainData,MakeTrainData3
 
 
 class LearnXGB():
     
     
-    def __init__(self, MakeTrainData, num_class=2):
+    def __init__(self,num_class=2):
         self.model = xgb.XGBClassifier()
         self.x_test = None
         self.num_class = num_class
-        self.MK = MakeTrainData
+        if num_class==2:
+            self.MK = MakeTrainData
+        else: # num_class==3
+            self.MK = MakeTrainData3
     
 
     def learn_xgb(self, path_tpx, path_daw, test_rate=0.8, param_dist='None',verbose=True):
