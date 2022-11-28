@@ -1,6 +1,8 @@
 import pandas as pd
 import numpy as np
-from modules.preprocessing import MakeTrainData
+from modules.preprocessing import MakeTrainData,MakeTrainData3
+from modules.preprocessing import DataFramePreProcessing
+from modules.preprocessing import PlotTrade
 
 
 class Simulation():
@@ -239,7 +241,6 @@ class Simulation():
 
     def get_trade_log(self):
         return self.trade_log
-
 
 
     def simulate(self):
