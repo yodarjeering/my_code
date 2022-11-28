@@ -1,6 +1,17 @@
 import pandas as pd
 import glob
+import numpy as np
 
+def process_kawase(path_kawase,df_con):
+    df_kawase = pd.read_csv(path_kawase, index_col=0,encoding='Shift_JIS')
+    column_name = df_kawase.iloc[0]
+    df_kawase = df_kawase.set_axis(df_kawase.iloc[1].values.tolist(),axis=1).iloc[2:]
+    df_kawase.dropna(how='all',axis=1,inplace=True)
+    df_kawase.replace('*****',np.nan,inplace=True)
+    df_kawase = df_kawase.astype('float64')
+    df_kawase['day'] = pd.to_datetime(df_kawase.index,format='%Y/%m/%d')
+    df_kawase.set_index('day',inplace=True)
+    return df_kawase
 
 class DataFramePreProcessing():
 
