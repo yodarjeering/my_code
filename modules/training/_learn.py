@@ -9,6 +9,18 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.linear_model import LinearRegression
 from modules.preprocessing import MakeTrainData,MakeTrainData3
+from modules.preprocessing import DataFramePreProcessing
+
+from modules.funcs import standarize
+import statsmodels.api as sm
+from sklearn import preprocessing
+
+
+def make_data(x_,y_):
+    train = pd.concat([y_,x_],axis = 1,join='inner').astype(float)
+    x_ = train[train.columns[1:]]
+    y_ = train[train.columns[0]]
+    return x_,y_
 
 
 class LearnXGB():
@@ -173,7 +185,7 @@ class LearnClustering(LearnXGB):
 
 
     def __init__(self,n_cluster=8,random_state=0,width=40,stride=5,strategy_table=None):
-        super(LearnClustering,self).__init__()
+        super().__init__()
         self.model : KMeans = None
         self.n_cluster = n_cluster
         self.width = width
@@ -286,7 +298,7 @@ class LearnTree(LearnXGB):
     
     
     def __init__(self,num_class=2):
-        super(LearnTree,self).__init__(num_class=num_class)
+        super().__init__(num_class=num_class)
         self.model : tree.DecisionTreeClassifier() = None
         self.x_test = None
     
@@ -308,7 +320,7 @@ class LearnRandomForest(LearnXGB):
     
     
     def __init__(self,num_class=2):
-        super(LearnRandomForest,self).__init__(num_class=num_class)
+        super().__init__(num_class=num_class)
         self.model : RandomForestClassifier = None
         self.x_test = None
     
@@ -330,7 +342,7 @@ class LearnLogisticRegressor(LearnXGB):
     
     
     def __init__(self,num_class):
-        super(LearnLogisticRegressor,self).__init__(num_class=num_class)
+        super().__init__(num_class=num_class)
         self.model : LogisticRegression = None
         self.x_test = None
     
@@ -352,7 +364,7 @@ class LearnLinearRegression(LearnXGB):
 
 
     def __init__(self):
-        super(LearnLinearRegression,self).__init__()
+        super().__init__()
         self.model : LinearRegression = None
         self.x_test = None
         self.x_val = None

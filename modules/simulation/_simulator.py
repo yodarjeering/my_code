@@ -262,7 +262,7 @@ class XGBSimulation(Simulation):
     
     
     def __init__(self, lx, alpha=0.70):
-        super(XGBSimulation,self).__init__()
+        super().__init__()
         self.lx = lx
         self.xgb_model = lx.model
         self.alpha = alpha
@@ -335,7 +335,7 @@ class XGBSimulation(Simulation):
 
             
             if not is_bought:
-                if is_cant_buy:
+                if is_cant_buy or self.wallet+prf < index_buy:
                     cant_buy += 1
                     continue
                 elif is_buy:
@@ -399,7 +399,7 @@ class XGBSimulation2(XGBSimulation):
 
 
     def __init__(self,lx,alpha=0.33):
-        super(XGBSimulation2,self).__init__(lx,alpha)
+        super().__init__(lx,alpha)
         self.MK = MakeTrainData3
 
     def calc_acc(self, acc_df, y_check):
@@ -542,7 +542,7 @@ class XGBSimulation2(XGBSimulation):
 
             
             if not is_bought:
-                if is_cant_buy:
+                if is_cant_buy or self.wallet+prf < index_buy:
                     cant_buy += 1
                     continue
                 elif is_buy:
@@ -599,12 +599,11 @@ class XGBSimulation2(XGBSimulation):
 class TechnicalSimulation(Simulation):
     
     
-    def __init__(self,ma_short=5, ma_long=25, hold_day=5, year=2021):
-        super(TechnicalSimulation,self).__init__()
+    def __init__(self,ma_short=5, ma_long=25, hold_day=5):
+        super().__init__()
         self.ma_short = ma_short
         self.ma_long = ma_long
         self.hold_day = hold_day
-        self.year = year
         
     
     def is_buyable(self, short_line, long_line, index_):
@@ -696,7 +695,7 @@ class FFTSimulation(XGBSimulation2):
 
 
     def __init__(self, lx, Fstrategies, alpha=0.33,width=20,window_type='none',is_high_pass=False,is_low_pass=True,is_ceps=False,cut_off=3):
-        super(FFTSimulation,self).__init__(lx,alpha)
+        super().__init__(lx,alpha)
         self.Fstrategies = Fstrategies
         self.width = width
         self.window_type = window_type
@@ -914,7 +913,7 @@ class FFTSimulation(XGBSimulation2):
 
             
             if not is_bought:
-                if is_cant_buy:
+                if is_cant_buy or self.wallet+prf < index_buy:
                     cant_buy += 1
                     continue
                 elif is_buy:
@@ -1036,7 +1035,7 @@ class FFTSimulation2(FFTSimulation):
 
             
             if not is_bought:
-                if is_cant_buy:
+                if is_cant_buy or self.wallet+prf < index_buy:
                     cant_buy += 1
                     continue
                 elif is_buy:
@@ -1100,7 +1099,7 @@ class UpDownSimulation(Simulation):
     
     
     def __init__(self,lx,Ustrategies,width=40,alpha=0.34):
-        super(UpDownSimulation,self).__init__()
+        super().__init__()
         self.lx = lx 
         self.xgb_model = lx.model
         self.Ustrategies = Ustrategies
@@ -1225,7 +1224,7 @@ class UpDownSimulation(Simulation):
 
             
             if not is_bought:
-                if is_cant_buy:
+                if is_cant_buy or self.wallet+prf < index_buy:
                     cant_buy += 1
                     continue
                 elif is_buy:
@@ -1287,7 +1286,7 @@ class ClusterSimulation(FFTSimulation):
 
 
     def __init__(self,lx,Cstrategies,width=20):
-        super(ClusterSimulation,self).__init__(lx,Cstrategies,width=width)
+        super().__init__(lx,Cstrategies,width=width)
 
     
     def simulate(self, path_tpx, path_daw, is_validate=False,is_online=False,start_year=2021,end_year=2021,start_month=1,end_month=12,
@@ -1362,7 +1361,7 @@ class ClusterSimulation(FFTSimulation):
 
             
             if not is_bought:
-                if is_cant_buy:
+                if is_cant_buy or self.wallet+prf < index_buy:
                     cant_buy += 1
                     continue
                 elif is_buy:
@@ -1424,17 +1423,17 @@ class CeilSimulation(Simulation):
 
 
     def __init__(self,alpha=0.8,beta=0.2):
-        super(CeilSimulation,self).__init__()
+        super().__init__()
         self.alpha = alpha
         self.beta = beta
         self.MK = MakeTrainData
 
 
-    def make_z_dict(self,path_tpx,path_daw,stride=1,test_rate=1.0):
+    def make_z_dict(self,path_tpx,path_daw,width=20,stride=1,test_rate=1.0):
         df_con = self.make_df_con(path_tpx,path_daw)
         z_dict = {}
         lc = LearnClustering()
-        _, z_ = lc.make_x_data(df_con['close'],stride=stride,test_rate=test_rate)
+        _, z_ = lc.make_x_data(df_con['close'],width=width,stride=stride,test_rate=test_rate)
         length = len(z_)
 
         for i in range(length):
@@ -1451,11 +1450,11 @@ class CeilSimulation(Simulation):
         return ceil_
 
 
-    def simulate(self,path_tpx, path_daw, is_validate=False,is_online=False,start_year=2021,end_year=2021,start_month=1,end_month=12,
-    is_observed=False):
+    def simulate(self,path_tpx, path_daw, is_validate=False,start_year=2021,end_year=2021,start_month=1,end_month=12,
+    is_observed=False,width=20,stride=1):
         x_check,y_check,y_,df_con,pl = self.simulate_routine(path_tpx, path_daw,start_year,end_year,start_month,end_month,'None',is_validate)
         self.x_check = x_check
-        z_dict = self.make_z_dict(path_tpx,path_daw)
+        z_dict = self.make_z_dict(path_tpx,path_daw,width=width,stride=stride)
         length = len(x_check)
         prf_list = []
         is_bought = False
@@ -1492,7 +1491,7 @@ class CeilSimulation(Simulation):
 
             
             if not is_bought:
-                if is_cant_buy:
+                if is_cant_buy or self.wallet+prf < index_buy:
                     cant_buy += 1
                     continue
                 elif is_buy:
@@ -1559,7 +1558,7 @@ class RandomSimulation(Simulation):
 
 
     def __init__(self,ma_short=5,ma_long=25,random_num=2):
-        super(RandomSimulation,self).__init__()
+        super().__init__()
         self.ma_short = ma_short
         self.ma_long = ma_long
         self.random_num = random_num
@@ -1697,7 +1696,7 @@ class RandomSimulation(Simulation):
 class DawSimulation(Simulation):
 
     def __init__(self,alpha=0,beta=0):
-        super(DawSimulation,self).__init__()
+        super().__init__()
         # 買いの閾値をalpha
         self.alpha = alpha
         # 売りの閾値をbeta
@@ -1844,7 +1843,7 @@ class DawSimulation(Simulation):
                 return 
             
             self.is_bought = is_bought
-                  
+
         
         if is_bought:
             index_sell = df_con['close'].loc[x_check.index[-1]] 
@@ -1881,7 +1880,7 @@ class TPXSimulation(Simulation):
 
 
     def __init__(self):
-        super(TPXSimulation,self).__init__()
+        super().__init__()
 
 
     def simulate(self,path_tpx,path_daw,is_validate=False,start_year=2021,end_year=2021,start_month=1,end_month=12,df_='None'):

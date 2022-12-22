@@ -1,8 +1,8 @@
 import glob
 import pandas as pd
 
-def get_gyosyu_df():
-    path_gyosyu = '/Users/Owner/Desktop/StockPriceData/Gyosyu_encoded/'
+def get_gyosyu_df(path_gyosyu):
+    # path_gyosyu = '/Users/Owner/Desktop/StockPriceData/Gyosyu_encoded/'
     FILE = glob.glob(path_gyosyu+'*.csv')
     df_dict = {}
     for file in FILE:
