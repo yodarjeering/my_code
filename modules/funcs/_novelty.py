@@ -163,8 +163,8 @@ def return_fft_list(lx,x_,FFT_obj,width=20):
         
     return fft_list        
 
-def return_uds_dict(value_dict,lx_dict,width=40,stride=5,window_type='bla'\
-    ,is_high_pass=False,is_low_pass=True,is_ceps=False,cut_off=3,order=3,path_=path_tpx,limit_year=2016):
+def return_uds_dict(value_dict,lx_dict,path_tpx,path_daw,width=40,stride=5,window_type='bla'\
+    ,is_high_pass=False,is_low_pass=True,is_ceps=False,cut_off=3,order=3,limit_year=2016):
     uds_dict = {}
     trade_dict = {}
     lx_dummy = LearnXGB(num_class=3)
