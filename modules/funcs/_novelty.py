@@ -5,6 +5,7 @@ from modules.funcs import standarize
 from modules.training import LearnClustering
 from collections import namedtuple
 from modules.simulation import XGBSimulation2
+from modules.funcs import butter_lowpass_filter, butter_lowpass
 
 ValueTable = namedtuple("ValueTable",["strategy","alpha","total_profit","trade_log","stock_wave"])
 Fstrategy = namedtuple("Fstrategy",["strategy","alpha","spectrum"])
@@ -238,7 +239,7 @@ def return_uds(lx,x_ng,x_nb,x_rg,x_rb,UpDownSimulation,width=20,stride=10,cut_of
             wave = lc.wave_dict[key]
             # このタイミングでハイパスフィルタかける
             # make_spectrum 内の関数をいじる
-            filtered_wave = butter_lowpass_filter(wave,cut_off,10,order=order)
+            filtered_wave = butter_lowpass_filter(wave,cut_off,20,order=order)
             strategy = strategy_list[j]
             fs  = Fstrategy(strategy,alpha,filtered_wave)
             Fstrategies.append(fs)

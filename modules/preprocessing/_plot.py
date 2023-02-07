@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import glob
+plt.rcParams['font.family'] = 'Meiryo'
 
 def plot(g,label='x'):
 #     type(g) = pd.DataFrame
@@ -68,6 +69,9 @@ class PlotTrade():
     def show(self):
         self.ax.grid()
         labels = self.ax.get_xticklabels()
+        self.ax.set_xlabel("")
+        self.ax.set_ylabel("株価 (円)")
+        self.ax.legend(bbox_to_anchor=(1.05, 1), loc='upper left')
         plt.setp(labels, rotation=15, fontsize=12)
         plt.show()
         

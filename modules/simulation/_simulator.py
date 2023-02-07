@@ -48,9 +48,9 @@ class Simulation():
         self.df_con = df_con
         y_check = y_.values.reshape(-1).tolist()
         if not is_validate:
-            pl = PlotTrade(df_con['close'],label='close')
-            pl.add_plot(df_con['ma_short'],label='ma_short')
-            pl.add_plot(df_con['ma_long'],label='ma_long')
+            pl = PlotTrade(df_con['close'],label='終値')
+            pl.add_plot(df_con['ma_short'],label='短期移動平均線')
+            pl.add_plot(df_con['ma_long'],label='長期移動平均線')
         else:
             pl=None
         self.pr_log = pd.DataFrame(index=x_check.index[:-1])
@@ -1110,7 +1110,7 @@ class UpDownSimulation(Simulation):
     
     
     def choose_strategy(self,wave,cut_off=3,order=3):
-        filtered_wave = butter_lowpass_filter(wave,cut_off,10,order=order)
+        filtered_wave = butter_lowpass_filter(wave,cut_off,20,order=order)
         diff_wave = np.diff(filtered_wave)
         sum_diff = sum(diff_wave)
         strategy = 'none'

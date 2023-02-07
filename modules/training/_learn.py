@@ -91,6 +91,19 @@ class LearnXGB():
             xgb.plot_importance(xgb_model,ax=ax) 
         self.model = xgb_model
         
+        
+    def learn_xgb3(self,x_train,y_train,param_dist='None',verbose=True):
+        if param_dist=='None':
+#             Grid search で求めたパラメタ 2021/11/21
+            param_dist = { 
+                'n_estimators':16,
+                'max_depth':3,
+                'random_state':7
+                }
+        xgb_model = xgb.XGBClassifier(**param_dist)
+        xgb_model.fit(x_train.astype(float), np.array(y_train), eval_metric='logloss')
+        self.model = xgb_model
+        
 
     def make_state(self,path_tpx,path_daw):
         df_con = self.make_df_con(path_tpx,path_daw)

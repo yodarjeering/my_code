@@ -15,8 +15,8 @@ class LocalPaths:
     RAW_TOPIX_PATH: str = os.path.join(RAW_DIR,'TOPIX_10years.csv')
     RAW_DAW_PATH: str = os.path.join(RAW_DIR,'DAW_10years.csv')
     RAW_225_PATH: str = os.path.join(RAW_DIR,'NK225_10years.csv')
-    
-    
+    RAW_TOPIX_LATEST_PATH:str = os.path.join(RAW_DIR,'TOPIX_latest.csv')
+    RAW_DAW_LATEST_PATH : str = os.path.join(RAW_DIR,'DAW_latest.csv')
     
     
     # path_tpx = '/Users/Owner/Desktop/StockPriceData/Stock_index/TOPIX_10years.csv'
