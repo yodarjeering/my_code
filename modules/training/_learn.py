@@ -8,10 +8,10 @@ from sklearn import tree
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.linear_model import LinearRegression
-from modules.preprocessing import MakeTrainData,MakeTrainData3
-from modules.preprocessing import DataFramePreProcessing
+# from modules.preprocessing import MakeTrainData,MakeTrainData3
+# from modules.preprocessing import DataFramePreProcessing
 
-from modules.funcs import standarize
+# from modules.funcs import standarize
 import statsmodels.api as sm
 from sklearn import preprocessing
 
